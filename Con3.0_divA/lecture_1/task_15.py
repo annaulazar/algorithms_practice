@@ -35,40 +35,24 @@
 # Выходной файл должен содержать корректную XML-строку, которая может быть получена из строки во входном файле
 # заменой ровно одного символа на другой. Если вариантов ответа несколько, можно вывести любой.
 
+
 def check_seq(seq: list) -> bool:
     stack = []
-    temp = []
-    for k in range(len(seq) - 1):
-        if k == 0 and seq[k] != '<':
-            return False
-        elif k == 0 and seq[k] == '<':
-            continue
-        elif seq[k] == '<' and seq[k-1] != '>':
-            return False
-        elif seq[k] == '>' and not seq[k-1].isalpha():
-            return False
-        elif seq[k] == '>':
-            if temp and temp[0] == '/':
-                if stack and stack.pop() == ''.join(temp[1:]):
-                    continue
-                else:
-                    return False
-            elif temp:
-                stack.append(''.join(temp))
-            temp = []
-        elif seq[k] == '/' and seq[k-1] != '<':
-            return False
-        elif seq[k] == '/' and not seq[k+1].isalpha():
-            return False
-        elif seq[k] == '/' and seq[k - 1] == '<':
-            temp.append('/')
-        elif seq[k].isalpha():
-            temp.append(seq[k])
-    if seq[-1] != '>':
+    if seq[0] != '<' or seq[-1] != '>':
         return False
-    else:
-        if not temp or temp[0] != '/' or not stack or stack.pop() != ''.join(temp[1:]):
+    seq1 = ''.join(seq[1:-1]).split('><')
+    for tag in seq1:
+        if tag.isalpha():
+            stack.append(tag)
+        elif tag[0] == '/':
+            if stack and stack.pop() == tag[1:]:
+                continue
+            else:
+                return False
+        else:
             return False
+    if stack:
+        return False
     return True
 
 
