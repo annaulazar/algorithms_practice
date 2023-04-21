@@ -72,9 +72,3 @@ for i in range(len(s)):
         s[i] = s_start[i]
 
 print(''.join(s))
-
-
-
-
-
-

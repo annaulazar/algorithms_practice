@@ -73,4 +73,3 @@ else:
                 continue
             stack.append(res)
     print(stack[-1])
-

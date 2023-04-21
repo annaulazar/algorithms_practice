@@ -1,7 +1,7 @@
 from collections import deque
 
 
-queue = deque([])
+queue = deque()
 
 def push(x):
     queue.append(x)
@@ -35,4 +35,5 @@ while comand_input != 'exit':
     else:
         print(comands[comand]())
     comand_input = input().strip()
+    # print(queue)
 print('bye')
