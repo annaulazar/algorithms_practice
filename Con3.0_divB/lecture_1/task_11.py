@@ -21,6 +21,37 @@
 # должна вместо числового значения вывести строку error.
 # Формат ввода
 # Вводятся команды управления стеком, по одной на строке
+# Пример 1
+# Ввод	 Вывод
+# push 1   ok
+# back     1
+# exit     bye
+# Пример 2
+# Ввод	 Вывод
+# size     0
+# push 1   ok
+# size     1
+# push 2   ok
+# size     2
+# push 3   ok
+# size     3
+# exit     bye
+# Пример 3
+# Ввод	  Вывод
+# push 3    ok
+# push 14   ok
+# size      2
+# clear     ok
+# push 1    ok
+# back      1
+# push 2    ok
+# back      2
+# pop       2
+# size      1
+# pop       1
+# size      0
+# exit      bye
+
 
 s = input()
 stack = []

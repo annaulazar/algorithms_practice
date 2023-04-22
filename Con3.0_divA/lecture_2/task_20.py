@@ -13,23 +13,32 @@
 # записаны номера машинок в том порядке, в котором Петя захочет играть с ними.
 # Формат вывода
 # Выведите единственное число: минимальное количество операций, которое надо совершить Петиной маме.
+# Пример
+# Ввод	Вывод
+# 3 2 7   4
+# 1
+# 2
+# 3
+# 1
+# 3
+# 1
+# 2
 
-
-def push_heap(heap_list, x):
+def push_heap(heap_list, heap_dict, x):
     heap_list.append(x)
     pos = len(heap_list) - 1
-    cars_heap_pos[x[0]] = pos
+    heap_dict[x[0]] = pos
     pos_parent = (pos - 1) // 2
     while pos > 0 and heap_list[pos][1] > heap_list[pos_parent][1]:
         heap_list[pos], heap_list[pos_parent] = \
             heap_list[pos_parent], heap_list[pos]
-        cars_heap_pos[heap_list[pos][0]] = pos_parent
-        cars_heap_pos[heap_list[pos_parent][0]] = pos
+        heap_dict[heap_list[pos][0]] = pos
+        heap_dict[heap_list[pos_parent][0]] = pos_parent
         pos = pos_parent
         pos_parent = (pos - 1) // 2
 
 
-def pop_heap(heap_list):
+def pop_heap(heap_list, heap_dict):
     ans = heap_list[0]
     heap_list[0] = heap_list[-1]
     pos = 0
@@ -40,8 +49,8 @@ def pop_heap(heap_list):
         if heap_list[pos][1] < heap_list[max_son_index][1]:
             heap_list[pos], heap_list[max_son_index] = \
                 heap_list[max_son_index], heap_list[pos]
-            cars_heap_pos[heap_list[pos][0]] = max_son_index
-            cars_heap_pos[heap_list[max_son_index][0]] = pos
+            heap_dict[heap_list[pos][0]] = pos
+            heap_dict[heap_list[max_son_index][0]] = max_son_index
             pos = max_son_index
         else:
             break
@@ -50,15 +59,15 @@ def pop_heap(heap_list):
     return ans
 
 
-def change_heap(heap_list, x):
-    pos = cars_heap_pos[x[0]]
+def change_heap(heap_list, heap_dict, x):
+    pos = heap_dict[x[0]]
     heap_list[pos][1] = x[1]
     pos_parent = (pos - 1) // 2
     while pos > 0 and heap_list[pos][1] > heap_list[pos_parent][1]:
         heap_list[pos], heap_list[pos_parent] = \
             heap_list[pos_parent], heap_list[pos]
-        cars_heap_pos[heap_list[pos][0]] = pos_parent
-        cars_heap_pos[heap_list[pos_parent][0]] = pos
+        heap_dict[heap_list[pos][0]] = pos
+        heap_dict[heap_list[pos_parent][0]] = pos_parent
         pos = pos_parent
         pos_parent = (pos - 1) // 2
 
@@ -71,21 +80,27 @@ for i in range(p-1, -1, -1):
         cars[i][1] = cars_dict[cars[i][0]]
     cars_dict[cars[i][0]] = i
 del cars_dict
-answer = k
+answer = 0
 cars_heap = []
 cars_heap_pos = {}
 cars_set = set()
-for j in range(k):
-    push_heap(cars_heap, cars[j])
-    cars_set.add(cars[j][0])
-for i in range(k, p):
+j = 0
+while len(cars_set) < k:
+    if cars[j][0] not in cars_set:
+        push_heap(cars_heap, cars_heap_pos, cars[j])
+        cars_set.add(cars[j][0])
+        answer += 1
+    else:
+        change_heap(cars_heap, cars_heap_pos, cars[j])
+    j += 1
+for i in range(j, p):
     if cars[i][0] not in cars_set:
-        temp = pop_heap(cars_heap)[0]
-        push_heap(cars_heap, cars[i])
+        temp = pop_heap(cars_heap, cars_heap_pos)[0]
+        push_heap(cars_heap, cars_heap_pos, cars[i])
         answer += 1
         cars_set.remove(temp)
         cars_set.add(cars[i][0])
     else:
-        change_heap(cars_heap, cars[i])
+        change_heap(cars_heap, cars_heap_pos, cars[i])
 
 print(answer)

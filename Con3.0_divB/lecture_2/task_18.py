@@ -32,6 +32,22 @@
 # Вводятся команды управления деком, по одной на строке.
 # Формат вывода
 # Требуется вывести протокол работы дека, по одному сообщению на строке
+# Пример 1
+# Ввод	        Вывод
+# push_back 1     ok
+# back            1
+# exit            bye
+# Пример 2
+# Ввод	        Вывод
+# size            0
+# push_back 1     ok
+# size            1
+# push_back 2     ok
+# size            2
+# push_front 3    ok
+# size            3
+# exit            bye
+
 
 from collections import deque
 
