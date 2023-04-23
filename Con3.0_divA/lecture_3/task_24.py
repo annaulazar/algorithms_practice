@@ -47,16 +47,16 @@ for _ in range(n):
 t1 = [0] * 14400
 t2 = [0] * 14400
 for i in range(len(telecs) - 1):
-    if telecs[i][0] < 14400 and telecs[i + 1][0] < 14400:
+    if telecs[i][0] < 14400 and telecs[i + 1][0] <= 14400:
         for j in range(telecs[i][0], telecs[i + 1][0]):
             t1[j] = telecs[i][1]
-    elif telecs[i][0] < 14400 and telecs[i + 1][0] >= 14400:
+    elif telecs[i][0] < 14400 and telecs[i + 1][0] > 14400:
         for j in range(telecs[i][0], 14400):
             t1[j] = telecs[i][1]
-    elif telecs[i][0] >= 14400 and telecs[i][0] < 18000:
+    elif telecs[i][0] >= 14400 and telecs[i][0] < 18000 and telecs[i + 1][0] > 18000:
         for j in range(0, telecs[i + 1][0] - 18000):
             t2[j] = telecs[i][1]
-    elif telecs[i][0] >= 18000 and telecs[i + 1][0] < 32400:
+    elif telecs[i][0] >= 18000 and telecs[i + 1][0] <= 32400:
         for j in range(telecs[i][0] - 18000, telecs[i + 1][0] - 18000):
             t2[j] = telecs[i][1]
 if telecs[-1][0] >= 18000:
@@ -73,8 +73,8 @@ elif telecs[-1][0] < 14400:
 
 dp1 = [0] * 14400
 dp2 = [0] * 14400
-dp1[0] = 1
-dp2[0] = 1
+dp1[0] = 1 if t1[0] <= 14400 else 0
+dp2[0] = 1 if t2[0] <= 14400 else 0
 
 for i in range(1, 14400):
     dp1[i] = max(dp1[i - 1], dp1[i])
@@ -83,6 +83,6 @@ for i in range(1, 14400):
         dp1[i + t1[i]] = max(dp1[i] + 1, dp1[i + t1[i]])
     if i + t2[i] < 14400:
         dp2[i + t2[i]] = max(dp2[i] + 1, dp2[i + t2[i]])
-print(dp1[-1])
-print(dp2[-1])
+# print(dp1[-1])
+# print(dp2[-1])
 print(dp1[-1] + dp2[-1])
