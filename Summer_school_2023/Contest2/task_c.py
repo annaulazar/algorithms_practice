@@ -21,10 +21,12 @@
 # a aa aaa bcd abcd
 
 dictionary = set(input().split())
+answer = []
 for word in input().split():
     for i in range(1, len(word)):
         if word[:i] in dictionary:
-            print(word[:i], end=' ')
+            answer.append(word[:i])
             break
     else:
-        print(word, end=' ')
+        answer.append(word)
+print(' '.join(answer))
