@@ -1,0 +1,8 @@
+n1 = int(input())
+set1 = set(map(int, input().strip().split()))
+n2 = int(input())
+set2 = set(map(int, input().strip().split()))
+n3 = int(input())
+set3 = set(map(int, input().strip().split()))
+res_set = (set1 | set2) & (set2 | set3) & (set1 | set3)
+print(*sorted(res_set))
