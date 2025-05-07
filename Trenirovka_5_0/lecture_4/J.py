@@ -164,7 +164,7 @@ class LinkedLakes:
 
 
 if __name__ == "__main__":
-    with open("input.txt", "r") as f:
+    with open("input24.txt", "r") as f:
         N, H = f.readline().strip().split()
         N, H = int(N), float(H)
         points = []
